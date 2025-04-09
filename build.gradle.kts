@@ -50,7 +50,7 @@ tasks {
     patchPluginXml {
         version.set(project.version.toString())
         sinceBuild.set("233")
-        untilBuild.set("241.*")
+        untilBuild.set("243.*")
         
         pluginDescription.set("""
             SmartTranslation是一款为 JetBrains IDE 开发的智能翻译插件，支持多种翻译引擎，提供便捷的代码注释和文档翻译功能。

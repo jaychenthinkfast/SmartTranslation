@@ -9,7 +9,7 @@
     <li>支持自定义语言设置</li>
     <li>支持翻译历史记录</li>
 </ul>]]></change-notes>
-  <idea-version since-build="233" until-build="241.*" />
+  <idea-version since-build="233" until-build="243.*" />
   <id>com.smarttranslation.plugin</id>
   <name>SmartTranslation</name>
   <vendor>SmartTranslation</vendor>
