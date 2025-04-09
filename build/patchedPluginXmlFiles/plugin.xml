@@ -1,0 +1,32 @@
+<idea-plugin>
+  <version>1.0-SNAPSHOT</version>
+  <change-notes>初始版本发布
+- 支持基础翻译功能
+- 支持多种翻译引擎</change-notes>
+  <idea-version since-build="231" until-build="243.*" />
+  <id>com.smarttranslation.plugin</id>
+  <name>SmartTranslation</name>
+  <vendor>SmartTranslation</vendor>
+  <description>SmartTranslation是一款专为GoLand IDE开发的智能翻译插件，支持多种翻译引擎，提供便捷的代码注释和文档翻译功能。
+
+主要功能:
+- 支持多种翻译引擎（Google、DeepL、百度、有道等）
+- 支持API密钥配置和管理
+- 支持快捷键翻译选中文本
+- 支持代码注释翻译
+- 支持Markdown文档翻译
+- 支持翻译历史记录
+- 支持自定义翻译规则</description>
+  <depends>com.intellij.modules.platform</depends>
+  <extensions defaultExtensionNs="com.intellij">
+    <applicationService serviceImplementation="com.github.smarttranslation.services.TranslateService" />
+    <applicationService serviceImplementation="com.github.smarttranslation.settings.AppSettingsState" />
+    <applicationConfigurable parentId="tools" instance="com.github.smarttranslation.settings.AppSettingsConfigurable" id="com.github.smarttranslation.settings.AppSettingsConfigurable" displayName="Smart Translation" />
+  </extensions>
+  <actions>
+    <action id="SmartTranslation.Translate" class="com.github.smarttranslation.actions.TranslateAction" text="SmartTranslation" description="Translate selected text">
+      <add-to-group group-id="EditorPopupMenu" anchor="first" />
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt T" />
+    </action>
+  </actions>
+</idea-plugin>

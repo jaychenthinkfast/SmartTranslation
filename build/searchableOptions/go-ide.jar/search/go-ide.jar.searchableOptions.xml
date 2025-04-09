@@ -1,0 +1,25 @@
+<options>
+  <configurable id="preferences.keymap" configurable_name="Keymap">
+    <option name="" path="ActionManager" hit="" />
+    <option name="actions" path="ActionManager" hit="Actions on Save…" />
+    <option name="on" path="ActionManager" hit="Actions on Save…" />
+    <option name="save" path="ActionManager" hit="Actions on Save…" />
+    <option name="edit" path="ActionManager" hit="Edit Go specific Settings" />
+    <option name="go" path="ActionManager" hit="Edit Go specific Settings" />
+    <option name="settings" path="ActionManager" hit="Edit Go specific Settings" />
+    <option name="specific" path="ActionManager" hit="Edit Go specific Settings" />
+    <option name="actions" path="ActionManager" hit="Edit actions that you can run on save" />
+    <option name="can" path="ActionManager" hit="Edit actions that you can run on save" />
+    <option name="edit" path="ActionManager" hit="Edit actions that you can run on save" />
+    <option name="on" path="ActionManager" hit="Edit actions that you can run on save" />
+    <option name="run" path="ActionManager" hit="Edit actions that you can run on save" />
+    <option name="save" path="ActionManager" hit="Edit actions that you can run on save" />
+    <option name="that" path="ActionManager" hit="Edit actions that you can run on save" />
+    <option name="you" path="ActionManager" hit="Edit actions that you can run on save" />
+    <option name="go" path="ActionManager" hit="Go Settings..." />
+    <option name="settings" path="ActionManager" hit="Go Settings..." />
+    <option name="new" path="ActionManager" hit="New Project" />
+    <option name="project" path="ActionManager" hit="New Project" />
+    <option name="project" path="ActionManager" hit="Project…" />
+  </configurable>
+</options>

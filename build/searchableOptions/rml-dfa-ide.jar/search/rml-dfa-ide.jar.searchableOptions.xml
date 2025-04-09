@@ -1,0 +1,11 @@
+<options>
+  <configurable id="preferences.keymap" configurable_name="Keymap">
+    <option name="dfa" path="ActionManager" hit="Show DFA Tool Window" />
+    <option name="show" path="ActionManager" hit="Show DFA Tool Window" />
+    <option name="tool" path="ActionManager" hit="Show DFA Tool Window" />
+    <option name="window" path="ActionManager" hit="Show DFA Tool Window" />
+    <option name="cfg" path="ActionManager" hit="Show Function CFG" />
+    <option name="function" path="ActionManager" hit="Show Function CFG" />
+    <option name="show" path="ActionManager" hit="Show Function CFG" />
+  </configurable>
+</options>

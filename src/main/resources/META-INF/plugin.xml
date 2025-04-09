@@ -1,0 +1,35 @@
+<idea-plugin>
+    <id>com.smarttranslation.plugin</id>
+    <name>SmartTranslation</name>
+    <vendor>SmartTranslation</vendor>
+    <description><![CDATA[
+    A smart translation plugin for JetBrains IDEs.
+    Features:
+    - Multiple translation services support
+    - Custom API key configuration
+    - Smart text selection translation
+    - Translation history
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="com.github.smarttranslation.services.TranslateService"/>
+        <applicationService serviceImplementation="com.github.smarttranslation.settings.AppSettingsState"/>
+        <applicationConfigurable
+                parentId="tools"
+                instance="com.github.smarttranslation.settings.AppSettingsConfigurable"
+                id="com.github.smarttranslation.settings.AppSettingsConfigurable"
+                displayName="Smart Translation"/>
+    </extensions>
+
+    <actions>
+        <action id="SmartTranslation.Translate"
+                class="com.github.smarttranslation.actions.TranslateAction"
+                text="SmartTranslation"
+                description="Translate selected text">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt T"/>
+        </action>
+    </actions>
+</idea-plugin> 

@@ -1,0 +1,53 @@
+<options>
+  <configurable id="reference.settingsdialog.IDE.editor.colors.Makefile" configurable_name="Makefile">
+    <option name="makefile" hit="Makefile" />
+    <option name="braces" hit="Braces" />
+    <option name="comment" hit="Comment" />
+    <option name="comment" hit="Documentation Comment" />
+    <option name="documentation" hit="Documentation Comment" />
+    <option name="function" hit="Function" />
+    <option name="function" hit="Function Param" />
+    <option name="param" hit="Function Param" />
+    <option name="keyword" hit="Keyword" />
+    <option name="line" hit="Line Split" />
+    <option name="split" hit="Line Split" />
+    <option name="prerequisite" hit="Prerequisite" />
+    <option name="separator" hit="Separator" />
+    <option name="special" hit="Special Target" />
+    <option name="target" hit="Special Target" />
+    <option name="tab" hit="Tab" />
+    <option name="target" hit="Target" />
+    <option name="name" hit="Variable Name" />
+    <option name="variable" hit="Variable Name" />
+    <option name="value" hit="Variable Value" />
+    <option name="variable" hit="Variable Value" />
+  </configurable>
+  <configurable id="preferences.sourceCode.Makefile" configurable_name="Makefile">
+    <option name="disable" hit="Disable" />
+    <option name="indent" path="Tabs and Indents" hit="Indent:" />
+    <option name="loading" hit="Loading..." />
+    <option name="makefile" hit="Makefile" />
+    <option name="scheme" hit="Scheme:" />
+    <option name="from" hit="Set from..." />
+    <option name="set" hit="Set from..." />
+    <option name="size" path="Tabs and Indents" hit="Tab size:" />
+    <option name="tab" path="Tabs and Indents" hit="Tab size:" />
+    <option name="and" path="Tabs and Indents" hit="Tabs and Indents" />
+    <option name="indents" path="Tabs and Indents" hit="Tabs and Indents" />
+    <option name="tabs" path="Tabs and Indents" hit="Tabs and Indents" />
+    <option name="character" path="Tabs and Indents" hit="Use tab character" />
+    <option name="tab" path="Tabs and Indents" hit="Use tab character" />
+    <option name="use" path="Tabs and Indents" hit="Use tab character" />
+  </configurable>
+  <configurable id="reference.settingsdialog.project.make" configurable_name="Make">
+    <option name="make" hit="Make" />
+    <option name="executable" hit="Path to Make executable" />
+    <option name="make" hit="Path to Make executable" />
+    <option name="path" hit="Path to Make executable" />
+    <option name="to" hit="Path to Make executable" />
+    <option name="cygwin" hit="Use Cygwin (Windows only)" />
+    <option name="only" hit="Use Cygwin (Windows only)" />
+    <option name="use" hit="Use Cygwin (Windows only)" />
+    <option name="windows" hit="Use Cygwin (Windows only)" />
+  </configurable>
+</options>
