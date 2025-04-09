@@ -1,22 +1,32 @@
 <idea-plugin>
-  <version>1.0-SNAPSHOT</version>
-  <change-notes>初始版本发布
-- 支持基础翻译功能
-- 支持多种翻译引擎</change-notes>
-  <idea-version since-build="231" until-build="243.*" />
+  <version>1.0.0</version>
+  <change-notes><![CDATA[<h3>1.0.0</h3>
+<ul>
+    <li>初始版本发布</li>
+    <li>支持 Google 翻译（无需 API 密钥）</li>
+    <li>支持 DeepSeek AI 翻译</li>
+    <li>支持快捷键和右键菜单翻译</li>
+    <li>支持自定义语言设置</li>
+    <li>支持翻译历史记录</li>
+</ul>]]></change-notes>
+  <idea-version since-build="233" until-build="241.*" />
   <id>com.smarttranslation.plugin</id>
   <name>SmartTranslation</name>
   <vendor>SmartTranslation</vendor>
-  <description>SmartTranslation是一款专为GoLand IDE开发的智能翻译插件，支持多种翻译引擎，提供便捷的代码注释和文档翻译功能。
+  <description><![CDATA[SmartTranslation是一款为 JetBrains IDE 开发的智能翻译插件，支持多种翻译引擎，提供便捷的代码注释和文档翻译功能。
 
 主要功能:
-- 支持多种翻译引擎（Google、DeepL、百度、有道等）
-- 支持API密钥配置和管理
-- 支持快捷键翻译选中文本
-- 支持代码注释翻译
-- 支持Markdown文档翻译
-- 支持翻译历史记录
-- 支持自定义翻译规则</description>
+- 支持多种翻译引擎
+  * Google 翻译（无需 API 密钥）
+  * DeepSeek AI 翻译（需要 API 密钥）
+- 便捷翻译操作
+  * 编辑器中选择文本后使用快捷键翻译
+  * 编辑器右键菜单快速访问翻译功能
+  * 自定义快捷键支持
+- 个性化设置
+  * 自定义目标语言和源语言
+  * 配置 API 密钥
+  * 翻译历史记录管理]]></description>
   <depends>com.intellij.modules.platform</depends>
   <extensions defaultExtensionNs="com.intellij">
     <applicationService serviceImplementation="com.github.smarttranslation.services.TranslateService" />
