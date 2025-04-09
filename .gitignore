@@ -74,4 +74,7 @@ local.properties
 .classpath
 
 # 发布脚本（包含敏感令牌）
-publish.sh 
+publish.sh
+
+# 清理脚本
+cleanup-repo.sh 
