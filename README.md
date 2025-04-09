@@ -1,64 +1,122 @@
 # SmartTranslation
 
-SmartTranslation 是一款适用于 JetBrains IDE 的智能翻译插件，支持通过多种翻译服务进行文本翻译。
+SmartTranslation 是一款为 JetBrains IDE 开发的智能翻译插件，支持多种翻译引擎，提供便捷的代码注释和文档翻译功能。
 
-## 功能特点
+## 功能特性
 
-- 支持 Google 翻译（无需API密钥）和 DeepSeek AI 翻译引擎
-- 智能文本选择翻译
-- 自定义快捷键支持
-- 翻译历史记录
-- 右键菜单顶部快速访问
+- **多种翻译引擎支持**：
+  - Google 翻译（无需 API 密钥）
+  - DeepSeek AI 翻译（需要 API 密钥）
+  - 可扩展架构，支持未来添加更多翻译服务
+
+- **便捷翻译操作**：
+  - 编辑器中选择文本后使用快捷键翻译
+  - 编辑器右键菜单快速访问翻译功能
+  - 自定义快捷键支持
+
+- **个性化设置**：
+  - 自定义目标语言和源语言
+  - 配置 API 密钥
+  - 翻译历史记录管理
 
 ## 安装方法
 
-1. 下载插件 ZIP 文件 (`SmartTranslation-1.0-SNAPSHOT.zip`)
-2. 打开 JetBrains IDE（如 IntelliJ IDEA、GoLand 等）
-3. 进入 `Settings/Preferences` → `Plugins`
-4. 点击齿轮图标，选择 `Install Plugin from Disk...`
-5. 选择下载的 ZIP 文件
-6. 重启 IDE
+### 从 JetBrains 插件市场安装
 
-## 配置说明
+1. 在 IDE 中打开 Settings/Preferences
+2. 选择 Plugins > Marketplace
+3. 搜索 "SmartTranslation"
+4. 点击 Install 按钮
+5. 重启 IDE
 
-### 配置设置
+### 手动安装
 
-1. 进入 `Settings/Preferences` → `Tools` → `Smart Translation`
-2. 选择默认翻译引擎：
-   - Google 翻译: 无需 API 密钥
-   - DeepSeek AI: 需要 API 密钥（可从 https://platform.deepseek.com/api_keys 获取）
-
-### 翻译设置
-
-- **目标语言**：设置翻译结果的语言
-- **源语言**：设置原文语言（auto 表示自动检测）
-- **历史记录最大数量**：设置保存的翻译记录数量
+1. 从 [Releases](https://github.com/jaychenthinkfast/SmartTranslation/releases) 页面下载最新版本的插件 ZIP 文件
+2. 在 IDE 中打开 Settings/Preferences
+3. 选择 Plugins > ⚙️ > Install Plugin from Disk...
+4. 选择下载的 ZIP 文件
+5. 重启 IDE
 
 ## 使用方法
 
-1. 在编辑器中选中需要翻译的文本
-2. 使用以下任一方式翻译：
-   - 右键点击选中文本，在菜单顶部选择 `SmartTranslation`
-   - 使用快捷键 `Ctrl+Alt+T`（或自定义快捷键）
+### 快速翻译
 
-## 特性改进
+1. 在编辑器中选择要翻译的文本
+2. 使用默认快捷键 `Ctrl+Alt+T`（Windows/Linux）或 `⌘⌥T`（macOS）
+3. 或者右键点击选中文本，选择 "SmartTranslation"
 
-最新版本的改进：
-- 将翻译选项移动到右键菜单顶部，方便快速访问
-- 更新菜单项名称为"SmartTranslation"，更符合插件品牌
-- 移除对Google翻译API密钥的依赖，使用免费翻译服务
-- 优化DeepSeek翻译服务，提高稳定性
+### 配置插件
 
-## 开发信息
+1. 在 IDE 中打开 Settings/Preferences
+2. 导航到 Tools > Smart Translation
+3. 配置以下选项：
+   - 默认翻译引擎
+   - API 密钥（如果使用 DeepSeek 翻译）
+   - 目标语言和源语言
+   - 历史记录大小
+   - 自定义快捷键
 
-- 语言：Kotlin
-- 框架：JetBrains Platform SDK
-- 第三方库：
-  - OkHttp：用于 HTTP 请求
-  - Gson：用于 JSON 处理
+## 支持的语言
+
+插件支持多种语言，包括但不限于：
+- 中文（简体和繁体）
+- 英语
+- 日语
+- 韩语
+- 法语
+- 德语
+- 西班牙语
+- 意大利语
+- 俄语
+- 葡萄牙语
+- 等
+
+## 开发指南
+
+### 环境要求
+
+- JDK 17 或更高版本
+- Gradle 7.6 或更高版本
+- IntelliJ IDEA（推荐）
+
+### 构建项目
+
+```bash
+# 克隆仓库
+git clone https://github.com/jaychenthinkfast/SmartTranslation.git
+cd SmartTranslation
+
+# 构建插件
+./gradlew buildPlugin
+```
+
+构建成功后，插件会位于 `build/distributions` 目录中。
+
+### 运行和调试
+
+```bash
+# 启动 IDE 的沙箱实例来测试插件
+./gradlew runIde
+```
+
+### 发布插件
+
+```bash
+# 设置发布令牌
+export PUBLISH_TOKEN="your-token-here"
+
+# 发布插件
+./gradlew publishPlugin
+```
+
+## 添加新的翻译服务
+
+要添加新的翻译服务，请遵循以下步骤：
+
+1. 在 `services/impl` 包中创建一个新的翻译服务实现类，实现 `TranslateService` 接口
+2. 在 `TranslateServiceFactory` 中注册新的翻译服务
+3. 在设置组件中添加相关配置选项
 
 ## 许可证
 
-[MIT License](LICENSE)
-
-
+[MIT License](LICENSE) 
