@@ -1,64 +1,72 @@
 package com.github.smarttranslation.settings
 
 import com.intellij.openapi.options.Configurable
-import javax.swing.*
+import javax.swing.JComponent
 
 /**
- * 设置界面配置类
+ * 应用设置配置页
  */
 class AppSettingsConfigurable : Configurable {
-    private var mySettingsComponent: AppSettingsComponent? = null
+    private var settingsComponent: AppSettingsComponent? = null
 
-    // 创建设置组件
-    override fun createComponent(): JComponent {
-        mySettingsComponent = AppSettingsComponent()
-        return mySettingsComponent!!.panel
+    /**
+     * 显示的配置名称
+     */
+    override fun getDisplayName(): String {
+        return "SmartTranslation 翻译设置"
     }
 
-    // 判断配置是否已修改
+    /**
+     * 创建设置UI组件
+     */
+    override fun createComponent(): JComponent {
+        settingsComponent = AppSettingsComponent()
+        return settingsComponent!!.getPanel()
+    }
+
+    /**
+     * 检查设置是否已修改
+     */
     override fun isModified(): Boolean {
         val settings = AppSettingsState.getInstance()
-        var modified = mySettingsComponent!!.defaultTranslateEngine != settings.defaultTranslateEngine
-        modified = modified or (mySettingsComponent!!.deepSeekApiKey != settings.deepSeekApiKey)
-        modified = modified or (mySettingsComponent!!.targetLanguage != settings.targetLanguage)
-        modified = modified or (mySettingsComponent!!.sourceLanguage != settings.sourceLanguage)
-        modified = modified or (mySettingsComponent!!.maxHistorySize != settings.maxHistorySize)
-        modified = modified or (mySettingsComponent!!.useCustomShortcut != settings.useCustomShortcut)
-        modified = modified or (mySettingsComponent!!.customShortcut != settings.customShortcut)
+        var modified = settingsComponent!!.getTranslateEngine() != settings.translateEngine
+        modified = modified || settingsComponent!!.getDeepSeekApiKey() != settings.deepSeekApiKey
+        modified = modified || settingsComponent!!.getConnectTimeout() != settings.connectTimeoutSeconds
+        modified = modified || settingsComponent!!.getReadTimeout() != settings.readTimeoutSeconds
         return modified
     }
 
-    // 保存设置
+    /**
+     * 应用设置更改
+     */
     override fun apply() {
         val settings = AppSettingsState.getInstance()
-        settings.defaultTranslateEngine = mySettingsComponent!!.defaultTranslateEngine
-        settings.deepSeekApiKey = mySettingsComponent!!.deepSeekApiKey
-        settings.targetLanguage = mySettingsComponent!!.targetLanguage
-        settings.sourceLanguage = mySettingsComponent!!.sourceLanguage
-        settings.maxHistorySize = mySettingsComponent!!.maxHistorySize
-        settings.useCustomShortcut = mySettingsComponent!!.useCustomShortcut
-        settings.customShortcut = mySettingsComponent!!.customShortcut
+        settings.translateEngine = settingsComponent!!.getTranslateEngine()
+        settings.deepSeekApiKey = settingsComponent!!.getDeepSeekApiKey()
+        settings.connectTimeoutSeconds = settingsComponent!!.getConnectTimeout()
+        settings.readTimeoutSeconds = settingsComponent!!.getReadTimeout()
     }
 
-    // 重置设置
+    /**
+     * 重置设置组件
+     */
     override fun reset() {
         val settings = AppSettingsState.getInstance()
-        mySettingsComponent!!.defaultTranslateEngine = settings.defaultTranslateEngine
-        mySettingsComponent!!.deepSeekApiKey = settings.deepSeekApiKey
-        mySettingsComponent!!.targetLanguage = settings.targetLanguage
-        mySettingsComponent!!.sourceLanguage = settings.sourceLanguage
-        mySettingsComponent!!.maxHistorySize = settings.maxHistorySize
-        mySettingsComponent!!.useCustomShortcut = settings.useCustomShortcut
-        mySettingsComponent!!.customShortcut = settings.customShortcut
+        settingsComponent!!.setTranslateEngine(settings.translateEngine)
+        settingsComponent!!.setDeepSeekApiKey(settings.deepSeekApiKey)
+        settingsComponent!!.setConnectTimeout(settings.connectTimeoutSeconds)
+        settingsComponent!!.setReadTimeout(settings.readTimeoutSeconds)
     }
 
-    // 释放资源
+    /**
+     * 销毁设置组件
+     */
     override fun disposeUIResources() {
-        mySettingsComponent = null
+        settingsComponent = null
     }
 
-    // 设置名称
-    override fun getDisplayName(): String {
-        return "SmartTranslation"
+    // 获取帮助主题
+    override fun getHelpTopic(): String? {
+        return "SmartTranslation Settings Help"
     }
 } 

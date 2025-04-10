@@ -1,102 +1,127 @@
 package com.github.smarttranslation.settings
 
-import com.intellij.ui.components.JBCheckBox
+import com.github.smarttranslation.services.TranslateServiceFactory
 import com.intellij.ui.components.JBLabel
-import com.intellij.ui.components.JBPasswordField
 import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.FormBuilder
-import com.intellij.util.ui.UI
 import javax.swing.*
 
 /**
- * 设置UI组件类
+ * 应用程序设置组件UI
  */
 class AppSettingsComponent {
-    private val engineComboBox = JComboBox(arrayOf("Google", "DeepSeek"))
-    private val targetLanguageComboBox = JComboBox(arrayOf("zh-CN", "en", "ja", "ko", "fr", "ru", "de"))
-    private val sourceLanguageComboBox = JComboBox(arrayOf("auto", "zh-CN", "en", "ja", "ko", "fr", "ru", "de"))
-    private val historySlider = JSlider(10, 200, 50)
+    private val panel: JPanel
     
-    private val deepSeekApiKeyField = JBPasswordField()
+    // 翻译引擎设置
+    private val engineComboBox = JComboBox(TranslateServiceFactory.getAvailableEngines().toTypedArray())
     
-    private val useCustomShortcutCheckBox = JBCheckBox("使用自定义快捷键")
-    private val customShortcutField = JBTextField()
+    // DeepSeek API密钥输入
+    private val deepSeekApiKeyField = JBTextField()
     
-    // 主面板
-    val panel: JPanel
-
+    // 超时设置
+    private val connectTimeoutField = JBTextField()
+    private val readTimeoutField = JBTextField()
+    
+    /**
+     * 初始化设置面板
+     */
     init {
-        // 翻译引擎面板
-        val enginePanel = FormBuilder.createFormBuilder()
-            .addLabeledComponent(JBLabel("默认翻译引擎:"), engineComboBox, 1, false)
-            .addSeparator()
-            .addComponent(JBLabel("Google 翻译不需要 API 密钥"))
-            .addLabeledComponent(JBLabel("DeepSeek API 密钥:"), deepSeekApiKeyField, 1, false)
-            .panel
-            
-        // 设置面板
-        val settingsPanel = FormBuilder.createFormBuilder()
-            .addLabeledComponent(JBLabel("目标语言:"), targetLanguageComboBox, 1, false)
-            .addLabeledComponent(JBLabel("源语言:"), sourceLanguageComboBox, 1, false)
-            .addLabeledComponent(JBLabel("历史记录最大数量:"), historySlider, 1, false)
-            .addComponent(useCustomShortcutCheckBox)
-            .addLabeledComponent(JBLabel("自定义快捷键:"), customShortcutField, 1, false)
-            .panel
-            
-        // 提示面板
-        val tipsPanel = FormBuilder.createFormBuilder()
-            .addComponent(JBLabel("使用说明:"))
-            .addComponent(JBLabel("1. 选择默认翻译引擎"))
-            .addComponent(JBLabel("2. 如果使用 DeepSeek 翻译，需要配置 API 密钥"))
-            .addComponent(JBLabel("3. 选择目标语言和源语言(auto表示自动检测)"))
-            .addComponent(JBLabel("4. 在编辑器中选中文本，使用快捷键或右键菜单进行翻译"))
-            .panel
-            
-        // 设置历史记录滑块显示当前值
-        historySlider.paintTicks = true
-        historySlider.paintLabels = true
-        historySlider.majorTickSpacing = 50
-        historySlider.minorTickSpacing = 10
-        
-        // 创建选项卡面板
-        val tabbedPane = JTabbedPane()
-        tabbedPane.addTab("翻译引擎", enginePanel)
-        tabbedPane.addTab("常规设置", settingsPanel)
-        tabbedPane.addTab("使用说明", tipsPanel)
-        
-        // 主面板
+        // 创建设置界面
         panel = FormBuilder.createFormBuilder()
-            .addComponent(tabbedPane)
+            .addLabeledComponent(JBLabel("翻译引擎:"), engineComboBox, 1, false)
+            .addComponent(JBLabel("DeepSeek是一个高质量的AI翻译服务，需要API密钥"), 5)
+            .addSeparator(10)
+            .addLabeledComponent(JBLabel("DeepSeek API密钥:"), deepSeekApiKeyField, 1, false)
+            .addComponent(JBLabel("使用DeepSeek翻译服务需要配置API密钥"), 5)
+            .addSeparator(10)
+            .addLabeledComponent(JBLabel("连接超时(秒):"), connectTimeoutField, 1, false)
+            .addComponent(JBLabel("建议值：5-15秒，网络不稳定时可适当增加"), 5)
+            .addLabeledComponent(JBLabel("读取超时(秒):"), readTimeoutField, 1, false)
+            .addComponent(JBLabel("建议值：10-30秒，翻译长文本时可适当增加"), 5)
+            .addComponent(JBLabel("提示：增加超时时间可以减少翻译失败率，但会增加等待时间"), 5)
             .addComponentFillVertically(JPanel(), 0)
             .panel
     }
-
-    // 获取各种配置的getter/setter
-    var defaultTranslateEngine: String
-        get() = engineComboBox.selectedItem as String
-        set(value) { engineComboBox.selectedItem = value }
-        
-    var deepSeekApiKey: String
-        get() = String(deepSeekApiKeyField.password)
-        set(value) { deepSeekApiKeyField.text = value }
-        
-    var targetLanguage: String
-        get() = targetLanguageComboBox.selectedItem as String
-        set(value) { targetLanguageComboBox.selectedItem = value }
-        
-    var sourceLanguage: String
-        get() = sourceLanguageComboBox.selectedItem as String
-        set(value) { sourceLanguageComboBox.selectedItem = value }
-        
-    var maxHistorySize: Int
-        get() = historySlider.value
-        set(value) { historySlider.value = value }
-        
-    var useCustomShortcut: Boolean
-        get() = useCustomShortcutCheckBox.isSelected
-        set(value) { useCustomShortcutCheckBox.isSelected = value }
-        
-    var customShortcut: String
-        get() = customShortcutField.text
-        set(value) { customShortcutField.text = value }
+    
+    /**
+     * 获取首选焦点组件
+     */
+    fun getPreferredFocusComponent(): JComponent {
+        return engineComboBox
+    }
+    
+    /**
+     * 获取设置面板
+     */
+    fun getPanel(): JPanel {
+        return panel
+    }
+    
+    /**
+     * 获取选择的翻译引擎
+     */
+    fun getTranslateEngine(): String {
+        return engineComboBox.selectedItem as String
+    }
+    
+    /**
+     * 设置翻译引擎
+     */
+    fun setTranslateEngine(engine: String) {
+        engineComboBox.selectedItem = engine
+    }
+    
+    /**
+     * 获取DeepSeek API密钥
+     */
+    fun getDeepSeekApiKey(): String {
+        return deepSeekApiKeyField.text
+    }
+    
+    /**
+     * 设置DeepSeek API密钥
+     */
+    fun setDeepSeekApiKey(apiKey: String) {
+        deepSeekApiKeyField.text = apiKey
+    }
+    
+    /**
+     * 获取连接超时时间
+     */
+    fun getConnectTimeout(): Int {
+        val value = connectTimeoutField.text.toIntOrNull() ?: 0
+        // 确保合理的范围
+        return when {
+            value < 1 -> 5  // 最小1秒，默认5秒
+            value > 60 -> 60 // 最大60秒
+            else -> value
+        }
+    }
+    
+    /**
+     * 设置连接超时时间
+     */
+    fun setConnectTimeout(timeout: Int) {
+        connectTimeoutField.text = timeout.toString()
+    }
+    
+    /**
+     * 获取读取超时时间
+     */
+    fun getReadTimeout(): Int {
+        val value = readTimeoutField.text.toIntOrNull() ?: 0
+        // 确保合理的范围
+        return when {
+            value < 1 -> 10  // 最小1秒，默认10秒
+            value > 120 -> 120 // 最大120秒
+            else -> value
+        }
+    }
+    
+    /**
+     * 设置读取超时时间
+     */
+    fun setReadTimeout(timeout: Int) {
+        readTimeoutField.text = timeout.toString()
+    }
 } 

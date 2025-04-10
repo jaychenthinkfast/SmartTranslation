@@ -16,11 +16,15 @@ import java.util.concurrent.TimeUnit
  * DeepSeek翻译服务实现
  */
 class DeepSeekTranslateService : TranslateService {
-    // OkHttp客户端
-    private val client = OkHttpClient.Builder()
-        .connectTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
-        .build()
+    // OkHttp客户端 - 延迟初始化，使用最新设置
+    private val client: OkHttpClient by lazy {
+        val settings = AppSettingsState.getInstance()
+        OkHttpClient.Builder()
+            .connectTimeout(settings.connectTimeoutSeconds.toLong(), TimeUnit.SECONDS)
+            .readTimeout(settings.readTimeoutSeconds.toLong(), TimeUnit.SECONDS)
+            .retryOnConnectionFailure(true)
+            .build()
+    }
     
     // DeepSeek API正确的端点
     private val apiUrl = "https://api.deepseek.com/v1/chat/completions"
@@ -35,6 +39,19 @@ class DeepSeekTranslateService : TranslateService {
         val settings = AppSettingsState.getInstance()
         val apiKey = settings.deepSeekApiKey
         
+        // 检查文本是否为空
+        if (text.isBlank()) {
+            return TranslateResult(
+                originalText = text,
+                translatedText = "",
+                sourceLanguage = sourceLanguage,
+                targetLanguage = targetLanguage,
+                engine = "DeepSeek",
+                error = "待翻译文本不能为空"
+            )
+        }
+        
+        // 检查API密钥
         if (apiKey.isBlank()) {
             return TranslateResult(
                 originalText = text,
@@ -47,105 +64,139 @@ class DeepSeekTranslateService : TranslateService {
         }
         
         try {
-            // 构建提示词
-            val sourceLang = if (sourceLanguage == "auto") "自动检测" else getLanguageName(sourceLanguage)
-            val targetLang = getLanguageName(targetLanguage)
+            // 获取源语言和目标语言的名称
+            val sourceLangName = getLanguageName(sourceLanguage)
+            val targetLangName = getLanguageName(targetLanguage)
             
-            // 清理待翻译文本，移除可能导致JSON解析错误的控制字符
-            val cleanedText = cleanTextForJson(text)
-            
-            val prompt = if (sourceLanguage == "auto") {
-                "请翻译成${targetLang}：\n\n$cleanedText"
+            // 构建提示信息 - 明确指示目标语言
+            val systemPrompt = "你是一个专业的翻译引擎，请将给定的文本翻译为${targetLangName}。请只返回翻译后的文本，不要添加任何解释或额外内容。确保翻译结果是${targetLangName}。"
+            val userPrompt = if (sourceLanguage == "auto") {
+                "将以下文本翻译为${targetLangName}，无论原文是什么语言：\n\n$text"
             } else {
-                "请将${sourceLang}翻译成${targetLang}：\n\n$cleanedText"
+                "将以下${sourceLangName}文本翻译为${targetLangName}：\n\n$text"
             }
             
-            // 使用Gson构建JSON，避免格式问题
-            val requestMap = mapOf(
-                "model" to "deepseek-chat",
-                "messages" to listOf(
-                    mapOf("role" to "system", "content" to "你是专业翻译，直接返回翻译结果，不要解释。"),
-                    mapOf("role" to "user", "content" to prompt)
-                ),
-                "temperature" to 0.1,
-                "max_tokens" to 1000
-            )
+            // 构建请求内容
+            val requestJson = """{
+                "model": "deepseek-chat",
+                "messages": [
+                    {"role": "system", "content": "${cleanTextForJson(systemPrompt)}"},
+                    {"role": "user", "content": "${cleanTextForJson(userPrompt)}"}
+                ],
+                "temperature": 0.3,
+                "max_tokens": ${calculateMaxTokens(text)},
+                "stream": false
+            }"""
             
-            val jsonBody = gson.toJson(requestMap)
+            // 创建请求
             val mediaType = "application/json; charset=utf-8".toMediaType()
-            val requestBody = jsonBody.toRequestBody(mediaType)
+            val requestBody = requestJson.toRequestBody(mediaType)
             
-            // 构建请求，确保使用正确的Authorization格式
             val request = Request.Builder()
                 .url(apiUrl)
                 .post(requestBody)
-                .addHeader("Authorization", "Bearer $apiKey")
                 .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization", "Bearer $apiKey")
                 .build()
             
-            // 同步执行请求
-            val response = client.newCall(request).execute()
-            val responseBody = response.body?.string() ?: ""
+            // 创建带有超时的客户端
+            val client = OkHttpClient.Builder()
+                .connectTimeout(settings.connectTimeoutSeconds.toLong(), TimeUnit.SECONDS)
+                .readTimeout(settings.readTimeoutSeconds.toLong(), TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build()
             
-            // 记录请求和响应信息，便于调试
-            println("DeepSeek请求URL: $apiUrl")
-            println("DeepSeek请求体: $jsonBody")
-            println("DeepSeek响应状态: ${response.code}")
-            println("DeepSeek响应体: $responseBody")
+            val call = client.newCall(request)
             
-            if (response.isSuccessful) {
-                try {
-                    // 解析响应
-                    val jsonElement = JsonParser.parseString(responseBody)
-                    val choices = jsonElement.asJsonObject.getAsJsonArray("choices")
-                    val choice = choices[0].asJsonObject
-                    val message = choice.getAsJsonObject("message")
-                    val content = message.get("content").asString
+            try {
+                // 同步执行请求
+                val response = call.execute()
+                val responseBody = response.body?.string() ?: ""
+                
+                if (response.isSuccessful) {
+                    try {
+                        // 解析响应
+                        val jsonElement = JsonParser.parseString(responseBody)
+                        val choices = jsonElement.asJsonObject.getAsJsonArray("choices")
+                        val choice = choices[0].asJsonObject
+                        val message = choice.getAsJsonObject("message")
+                        val content = message.get("content").asString
+                        
+                        // 处理翻译结果，提取纯净的翻译文本
+                        val cleanedTranslation = content.trim()
+                        
+                        return TranslateResult(
+                            originalText = text,
+                            translatedText = cleanedTranslation,
+                            sourceLanguage = sourceLanguage,
+                            targetLanguage = targetLanguage,
+                            engine = "DeepSeek"
+                        )
+                    } catch (e: Exception) {
+                        // JSON解析错误
+                        return TranslateResult(
+                            originalText = text,
+                            translatedText = "",
+                            sourceLanguage = sourceLanguage,
+                            targetLanguage = targetLanguage,
+                            engine = "DeepSeek",
+                            error = "解析响应失败：${e.message}"
+                        )
+                    }
+                } else {
+                    // 添加更详细的错误信息
+                    var errorDetails = "请求失败：${response.code} ${response.message}"
+                    try {
+                        // 尝试从响应体中解析更详细的错误信息
+                        val errorJson = JsonParser.parseString(responseBody).asJsonObject
+                        if (errorJson.has("error")) {
+                            val error = errorJson.getAsJsonObject("error")
+                            val message = if (error.has("message")) error.get("message").asString else "未知错误"
+                            val type = if (error.has("type")) error.get("type").asString else "未知类型"
+                            errorDetails += "\n错误类型：$type\n错误消息：$message"
+                        }
+                    } catch (e: Exception) {
+                        errorDetails += "\n无法解析错误详情"
+                    }
                     
-                    // 处理翻译结果，提取纯净的翻译文本
-                    val cleanedTranslation = content.trim()
-                    
-                    return TranslateResult(
-                        originalText = text,
-                        translatedText = cleanedTranslation,
-                        sourceLanguage = sourceLanguage,
-                        targetLanguage = targetLanguage,
-                        engine = "DeepSeek"
-                    )
-                } catch (e: Exception) {
-                    // JSON解析错误
                     return TranslateResult(
                         originalText = text,
                         translatedText = "",
                         sourceLanguage = sourceLanguage,
                         targetLanguage = targetLanguage,
                         engine = "DeepSeek",
-                        error = "解析响应失败：${e.message}\n响应内容：$responseBody"
+                        error = errorDetails
                     )
                 }
-            } else {
-                // 添加更详细的错误信息
-                var errorDetails = "请求失败：${response.code} ${response.message}"
-                try {
-                    // 尝试从响应体中解析更详细的错误信息
-                    val errorJson = JsonParser.parseString(responseBody).asJsonObject
-                    if (errorJson.has("error")) {
-                        val error = errorJson.getAsJsonObject("error")
-                        val message = if (error.has("message")) error.get("message").asString else "未知错误"
-                        val type = if (error.has("type")) error.get("type").asString else "未知类型"
-                        errorDetails += "\n错误类型：$type\n错误消息：$message"
-                    }
-                } catch (e: Exception) {
-                    errorDetails += "\n无法解析错误详情：$responseBody"
-                }
-                
+            } catch (e: java.net.SocketTimeoutException) {
+                // 处理超时异常
                 return TranslateResult(
                     originalText = text,
                     translatedText = "",
                     sourceLanguage = sourceLanguage,
                     targetLanguage = targetLanguage,
                     engine = "DeepSeek",
-                    error = errorDetails
+                    error = "请求超时，请在设置中增加超时时间或检查网络连接"
+                )
+            } catch (e: java.net.ConnectException) {
+                // 处理连接异常
+                return TranslateResult(
+                    originalText = text,
+                    translatedText = "",
+                    sourceLanguage = sourceLanguage,
+                    targetLanguage = targetLanguage,
+                    engine = "DeepSeek",
+                    error = "连接失败，请检查网络连接和API地址"
+                )
+            } catch (e: java.io.IOException) {
+                // 处理IO异常
+                return TranslateResult(
+                    originalText = text,
+                    translatedText = "",
+                    sourceLanguage = sourceLanguage,
+                    targetLanguage = targetLanguage,
+                    engine = "DeepSeek",
+                    error = "网络IO错误：${e.message}"
                 )
             }
         } catch (e: Exception) {
@@ -158,6 +209,18 @@ class DeepSeekTranslateService : TranslateService {
                 error = "翻译异常：${e.message}"
             )
         }
+    }
+    
+    /**
+     * 根据输入文本长度计算合适的最大令牌数
+     * 这是为了避免超时，文本越长，需要的处理时间越长
+     */
+    private fun calculateMaxTokens(text: String): Int {
+        val baseTokens = 1000
+        // 大致估算：每个字符约占0.5-1个token，我们按保守的1:1计算
+        val estimatedInputTokens = text.length
+        // 输出一般是输入的2倍以内
+        return minOf(baseTokens, estimatedInputTokens * 2) + 100 // 加上100作为缓冲
     }
     
     /**
@@ -190,10 +253,23 @@ class DeepSeekTranslateService : TranslateService {
      * 检测文本语言
      */
     override fun detectLanguage(text: String): String {
-        // DeepSeek模型不提供单独的语言检测API，我们通过翻译时候返回源语言信息
-        // 这里的实现很简单，就是将源语言设为auto，让模型自己判断
-        val result = translate(text, "en", "auto")
-        return result.sourceLanguage
+        // 检查文本是否为空
+        if (text.isBlank()) {
+            return "en" // 默认返回英语
+        }
+        
+        // 简易语言检测逻辑
+        // 如果文本包含较多的中文字符，判定为中文
+        val chineseCharCount = text.count { it.code in 0x4E00..0x9FFF }
+        val chineseRatio = chineseCharCount.toFloat() / text.length
+        
+        return if (chineseRatio > 0.1) {
+            // 如果包含10%以上的汉字，判定为中文
+            "zh-CN"
+        } else {
+            // 否则默认为英文
+            "en"
+        }
     }
     
     /**

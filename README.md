@@ -1,13 +1,12 @@
 # SmartTranslation
 
-SmartTranslation 是一款为 JetBrains IDE 开发的智能翻译插件，支持多种翻译引擎，提供便捷的代码注释和文档翻译功能。
+SmartTranslation 是一款为 JetBrains IDE 开发的智能翻译插件，提供便捷的代码注释和文档翻译功能。
 
 ## 功能特性
 
-- **多种翻译引擎支持**：
-  - Google 翻译（无需 API 密钥）
+- **高质量的 AI 翻译**：
   - DeepSeek AI 翻译（需要 API 密钥）
-  - 可扩展架构，支持未来添加更多翻译服务
+  - 支持中英文互译，准确度高
 
 - **便捷翻译操作**：
   - 编辑器中选择文本后使用快捷键翻译
@@ -15,9 +14,9 @@ SmartTranslation 是一款为 JetBrains IDE 开发的智能翻译插件，支持
   - 自定义快捷键支持
 
 - **个性化设置**：
-  - 自定义目标语言和源语言
+  - 中文和英文互译
   - 配置 API 密钥
-  - 翻译历史记录管理
+  - 可调整连接和读取超时设置
 
 ## 安装方法
 
@@ -50,26 +49,13 @@ SmartTranslation 是一款为 JetBrains IDE 开发的智能翻译插件，支持
 1. 在 IDE 中打开 Settings/Preferences
 2. 导航到 Tools > Smart Translation
 3. 配置以下选项：
-   - 默认翻译引擎
-   - API 密钥（如果使用 DeepSeek 翻译）
-   - 目标语言和源语言
-   - 历史记录大小
+   - DeepSeek API 密钥（必需）
+   - 连接超时和读取超时设置
    - 自定义快捷键
 
 ## 支持的语言
 
-插件支持多种语言，包括但不限于：
-- 中文（简体和繁体）
-- 英语
-- 日语
-- 韩语
-- 法语
-- 德语
-- 西班牙语
-- 意大利语
-- 俄语
-- 葡萄牙语
-- 等
+目前插件支持中文和英文互译。
 
 ## 开发指南
 
@@ -109,13 +95,21 @@ export PUBLISH_TOKEN="your-token-here"
 ./gradlew publishPlugin
 ```
 
-## 添加新的翻译服务
+## DeepSeek API 密钥获取
 
-要添加新的翻译服务，请遵循以下步骤：
+要使用 SmartTranslation 插件，您需要获取 DeepSeek API 密钥：
 
-1. 在 `services/impl` 包中创建一个新的翻译服务实现类，实现 `TranslateService` 接口
-2. 在 `TranslateServiceFactory` 中注册新的翻译服务
-3. 在设置组件中添加相关配置选项
+1. 访问 [DeepSeek 官网](https://platform.deepseek.com/)
+2. 注册/登录您的账户
+3. 导航至 API 密钥管理页面
+4. 创建新的 API 密钥
+5. 将生成的密钥复制到插件设置中
+
+## 注意事项
+
+- 翻译长文本时可能需要较长时间，建议增加超时设置
+- 确保网络连接稳定，尤其是当连接到国际API时
+- API调用可能会产生费用，请参阅DeepSeek的定价政策
 
 ## 许可证
 

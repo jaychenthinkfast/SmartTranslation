@@ -7,40 +7,45 @@ import com.intellij.openapi.components.Storage
 import com.intellij.util.xmlb.XmlSerializerUtil
 
 /**
- * 应用设置状态类，用于持久化保存插件配置
+ * 应用程序设置状态
  */
 @State(
     name = "com.github.smarttranslation.settings.AppSettingsState",
     storages = [Storage("SmartTranslationSettings.xml")]
 )
 class AppSettingsState : PersistentStateComponent<AppSettingsState> {
-
-    // 默认翻译引擎
-    var defaultTranslateEngine: String = "Google"
-    
-    // API密钥配置
+    // 深度搜索API密钥
     var deepSeekApiKey: String = ""
-    
-    // 翻译设置
-    var targetLanguage: String = "zh-CN"  // 目标语言
-    var sourceLanguage: String = "auto"   // 源语言，auto表示自动检测
-    var maxHistorySize: Int = 50          // 历史记录最大数量
-    
-    // 快捷键设置
-    var useCustomShortcut: Boolean = false
-    var customShortcut: String = "ctrl alt T"
 
-    companion object {
-        fun getInstance(): AppSettingsState {
-            return ApplicationManager.getApplication().getService(AppSettingsState::class.java)
-        }
-    }
+    // 翻译引擎
+    var translateEngine: String = "DeepSeek"
 
+    // 连接超时时间（秒）
+    var connectTimeoutSeconds: Int = 10
+
+    // 读取超时时间（秒）
+    var readTimeoutSeconds: Int = 10
+
+    /**
+     * 获取持久化状态
+     */
     override fun getState(): AppSettingsState {
         return this
     }
 
+    /**
+     * 加载持久化状态
+     */
     override fun loadState(state: AppSettingsState) {
         XmlSerializerUtil.copyBean(state, this)
+    }
+
+    companion object {
+        /**
+         * 获取实例
+         */
+        fun getInstance(): AppSettingsState {
+            return ApplicationManager.getApplication().getService(AppSettingsState::class.java)
+        }
     }
 } 
