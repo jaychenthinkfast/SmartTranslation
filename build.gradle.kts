@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.github.smarttranslation"
-version = "1.0.9"
+version = "1.0.10"
 
 repositories {
     maven { url = uri("https://maven.aliyun.com/repository/public") }
@@ -53,34 +53,7 @@ tasks {
         untilBuild.set("243.*")
         
         pluginDescription.set("""
-            <h2>SmartTranslation</h2>
-            <p>SmartTranslation is an intelligent translation plugin developed for JetBrains IDEs, providing convenient code comment and document translation functions.</p>
             
-            <h3>Main Features:</h3>
-            <ul>
-                <li><b>High-quality AI translation</b>
-                    <ul>
-                        <li>DeepSeek AI Translation (API key required)</li>
-                        <li>Support for Chinese-English translation with high accuracy</li>
-                    </ul>
-                </li>
-                <li><b>Convenient translation operations</b>
-                    <ul>
-                        <li>Translate selected text in the editor using keyboard shortcuts</li>
-                        <li>Quick access to translation functions from the editor's context menu</li>
-                        <li>Custom keyboard shortcut support</li>
-                    </ul>
-                </li>
-                <li><b>Personalized settings</b>
-                    <ul>
-                        <li>Chinese and English mutual translation</li>
-                        <li>Configure API keys</li>
-                        <li>Adjustable connection and read timeout settings</li>
-                    </ul>
-                </li>
-            </ul>
-            
-            <hr>
             
             <h2>SmartTranslation</h2>
             <p>SmartTranslation 是一款为 JetBrains IDE 开发的智能翻译插件，提供便捷的代码注释和文档翻译功能。</p>
@@ -108,6 +81,35 @@ tasks {
                     </ul>
                 </li>
             </ul>
+            <hr>
+            <h2>SmartTranslation</h2>
+            <p>SmartTranslation is an intelligent translation plugin developed for JetBrains IDEs, providing convenient code comment and document translation functions.</p>
+            
+            <h3>Main Features:</h3>
+            <ul>
+                <li><b>High-quality AI translation</b>
+                    <ul>
+                        <li>DeepSeek AI Translation (API key required)</li>
+                        <li>Support for Chinese-English translation with high accuracy</li>
+                    </ul>
+                </li>
+                <li><b>Convenient translation operations</b>
+                    <ul>
+                        <li>Translate selected text in the editor using keyboard shortcuts</li>
+                        <li>Quick access to translation functions from the editor's context menu</li>
+                        <li>Custom keyboard shortcut support</li>
+                    </ul>
+                </li>
+                <li><b>Personalized settings</b>
+                    <ul>
+                        <li>Chinese and English mutual translation</li>
+                        <li>Configure API keys</li>
+                        <li>Adjustable connection and read timeout settings</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            
         """.trimIndent())
         
         changeNotes.set("""
