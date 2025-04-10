@@ -53,34 +53,65 @@ tasks {
         untilBuild.set("243.*")
         
         pluginDescription.set("""
-            SmartTranslation is an intelligent translation plugin developed for JetBrains IDEs, supporting multiple translation engines and providing convenient code comment and document translation functions.
+            <h2>SmartTranslation</h2>
+            <p>SmartTranslation is an intelligent translation plugin developed for JetBrains IDEs, providing convenient code comment and document translation functions.</p>
             
-            Main Features:
-            - Multiple translation engines support
-              * Google Translate (no API key required)
-              * DeepSeek AI Translation (API key required)
-            - Convenient translation operations
-              * Translate selected text in the editor using keyboard shortcuts
-              * Quick access to translation functions from the editor's context menu
-              * Custom keyboard shortcut support
-            - Personalized settings
-              * Customize target and source languages
-              * Configure API keys
-              * Translation history management
-              
-            This plugin helps developers quickly translate comments, documentation, and code snippets between different languages, improving development efficiency and international collaboration.
+            <h3>Main Features:</h3>
+            <ul>
+                <li><b>High-quality AI translation</b>
+                    <ul>
+                        <li>DeepSeek AI Translation (API key required)</li>
+                        <li>Support for Chinese-English translation with high accuracy</li>
+                    </ul>
+                </li>
+                <li><b>Convenient translation operations</b>
+                    <ul>
+                        <li>Translate selected text in the editor using keyboard shortcuts</li>
+                        <li>Quick access to translation functions from the editor's context menu</li>
+                        <li>Custom keyboard shortcut support</li>
+                    </ul>
+                </li>
+                <li><b>Personalized settings</b>
+                    <ul>
+                        <li>Chinese and English mutual translation</li>
+                        <li>Configure API keys</li>
+                        <li>Adjustable connection and read timeout settings</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <hr>
+            
+            <h2>SmartTranslation</h2>
+            <p>SmartTranslation 是一款为 JetBrains IDE 开发的智能翻译插件，提供便捷的代码注释和文档翻译功能。</p>
+            
+            <h3>功能特性:</h3>
+            <ul>
+                <li><b>高质量的 AI 翻译</b>
+                    <ul>
+                        <li>DeepSeek AI 翻译（需要 API 密钥）</li>
+                        <li>支持中英文互译，准确度高</li>
+                    </ul>
+                </li>
+                <li><b>便捷翻译操作</b>
+                    <ul>
+                        <li>编辑器中选择文本后使用快捷键翻译</li>
+                        <li>编辑器右键菜单快速访问翻译功能</li>
+                        <li>自定义快捷键支持</li>
+                    </ul>
+                </li>
+                <li><b>个性化设置</b>
+                    <ul>
+                        <li>中文和英文互译</li>
+                        <li>配置 API 密钥</li>
+                        <li>可调整连接和读取超时设置</li>
+                    </ul>
+                </li>
+            </ul>
         """.trimIndent())
         
         changeNotes.set("""
-            <h3>1.0.0</h3>
-            <ul>
-                <li>Initial release</li>
-                <li>Support for Google Translate (no API key required)</li>
-                <li>Support for DeepSeek AI Translation</li>
-                <li>Keyboard shortcuts and right-click menu translation</li>
-                <li>Custom language settings</li>
-                <li>Translation history</li>
-            </ul>
+            
         """.trimIndent())
     }
 
