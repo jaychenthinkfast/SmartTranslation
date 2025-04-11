@@ -31,6 +31,7 @@ class AppSettingsConfigurable : Configurable {
         val settings = AppSettingsState.getInstance()
         var modified = settingsComponent!!.getTranslateEngine() != settings.translateEngine
         modified = modified || settingsComponent!!.getDeepSeekApiKey() != settings.deepSeekApiKey
+        modified = modified || settingsComponent!!.getGLM4ApiKey() != settings.glm4ApiKey
         modified = modified || settingsComponent!!.getConnectTimeout() != settings.connectTimeoutSeconds
         modified = modified || settingsComponent!!.getReadTimeout() != settings.readTimeoutSeconds
         return modified
@@ -43,6 +44,7 @@ class AppSettingsConfigurable : Configurable {
         val settings = AppSettingsState.getInstance()
         settings.translateEngine = settingsComponent!!.getTranslateEngine()
         settings.deepSeekApiKey = settingsComponent!!.getDeepSeekApiKey()
+        settings.glm4ApiKey = settingsComponent!!.getGLM4ApiKey()
         settings.connectTimeoutSeconds = settingsComponent!!.getConnectTimeout()
         settings.readTimeoutSeconds = settingsComponent!!.getReadTimeout()
     }
@@ -54,6 +56,7 @@ class AppSettingsConfigurable : Configurable {
         val settings = AppSettingsState.getInstance()
         settingsComponent!!.setTranslateEngine(settings.translateEngine)
         settingsComponent!!.setDeepSeekApiKey(settings.deepSeekApiKey)
+        settingsComponent!!.setGLM4ApiKey(settings.glm4ApiKey)
         settingsComponent!!.setConnectTimeout(settings.connectTimeoutSeconds)
         settingsComponent!!.setReadTimeout(settings.readTimeoutSeconds)
     }

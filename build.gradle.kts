@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.github.smarttranslation"
-version = "1.0.10"
+version = "1.1.0"
 
 repositories {
     maven { url = uri("https://maven.aliyun.com/repository/public") }
@@ -62,7 +62,8 @@ tasks {
             <ul>
                 <li><b>高质量的 AI 翻译</b>
                     <ul>
-                        <li>DeepSeek AI 翻译（需要 API 密钥）</li>
+                        <li>智谱 GLM-4 翻译（默认，免费使用，仅需注册获取API密钥，<a href="https://www.bigmodel.cn/invite?icode=k7Ec6USMTbEd4du4ZxULXpmwcr074zMJTpgMb8zZZvg%3D">点击注册</a>）</li>
+                        <li>DeepSeek AI 翻译（需要 API 密钥和充值）</li>
                         <li>支持中英文互译，准确度高</li>
                     </ul>
                 </li>
@@ -75,6 +76,7 @@ tasks {
                 </li>
                 <li><b>个性化设置</b>
                     <ul>
+                        <li>选择首选的翻译引擎</li>
                         <li>中文和英文互译</li>
                         <li>配置 API 密钥</li>
                         <li>可调整连接和读取超时设置</li>
@@ -89,7 +91,8 @@ tasks {
             <ul>
                 <li><b>High-quality AI translation</b>
                     <ul>
-                        <li>DeepSeek AI Translation (API key required)</li>
+                        <li>Zhipu GLM-4 Translation (Default, free to use, only API key registration required, <a href="https://www.bigmodel.cn/invite?icode=k7Ec6USMTbEd4du4ZxULXpmwcr074zMJTpgMb8zZZvg%3D">register here</a>)</li>
+                        <li>DeepSeek AI Translation (API key and payment required)</li>
                         <li>Support for Chinese-English translation with high accuracy</li>
                     </ul>
                 </li>
@@ -102,6 +105,7 @@ tasks {
                 </li>
                 <li><b>Personalized settings</b>
                     <ul>
+                        <li>Choose preferred translation engine</li>
                         <li>Chinese and English mutual translation</li>
                         <li>Configure API keys</li>
                         <li>Adjustable connection and read timeout settings</li>
@@ -113,7 +117,23 @@ tasks {
         """.trimIndent())
         
         changeNotes.set("""
+            <h3>1.1.0 版本更新:</h3>
+            <ul>
+                <li>添加智谱 GLM-4 翻译引擎支持</li>
+                <li>设置智谱 GLM-4 为默认翻译引擎（免费使用，仅需注册获取API密钥）</li>
+                <li>优化设置界面，提供直接访问服务提供商官网的链接</li>
+                <li>修复链接点击问题</li>
+                <li>改进翻译质量和稳定性</li>
+            </ul>
             
+            <h3>Version 1.1.0 Updates:</h3>
+            <ul>
+                <li>Added Zhipu GLM-4 translation engine support</li>
+                <li>Set Zhipu GLM-4 as the default translation engine (free to use with API key registration only)</li>
+                <li>Optimized settings interface with direct links to service provider websites</li>
+                <li>Fixed link clicking issues</li>
+                <li>Improved translation quality and stability</li>
+            </ul>
         """.trimIndent())
     }
 

@@ -5,7 +5,8 @@ SmartTranslation 是一款为 JetBrains IDE 开发的智能翻译插件，提供
 ## 功能特性
 
 - **高质量的 AI 翻译**：
-  - DeepSeek AI 翻译（需要 API 密钥）
+  - 智谱 GLM-4 翻译（默认，免费使用，仅需注册获取API密钥）
+  - DeepSeek AI 翻译（需要 API 密钥和充值）
   - 支持中英文互译，准确度高
 
 - **便捷翻译操作**：
@@ -17,6 +18,7 @@ SmartTranslation 是一款为 JetBrains IDE 开发的智能翻译插件，提供
   - 中文和英文互译
   - 配置 API 密钥
   - 可调整连接和读取超时设置
+  - 选择首选翻译引擎
 
 ## 安装方法
 
@@ -49,13 +51,29 @@ SmartTranslation 是一款为 JetBrains IDE 开发的智能翻译插件，提供
 1. 在 IDE 中打开 Settings/Preferences
 2. 导航到 Tools > Smart Translation
 3. 配置以下选项：
-   - DeepSeek API 密钥（必需）
+   - 选择首选的翻译引擎（默认为智谱 GLM-4）
+   - 智谱 GLM-4 API 密钥（首选，免费使用）
+   - DeepSeek API 密钥（可选）
    - 连接超时和读取超时设置
    - 自定义快捷键
 
 ## 支持的语言
 
-目前插件支持中文和英文互译。
+插件支持多种语言翻译，主要针对中文和英文互译进行了优化。
+
+## 翻译引擎
+
+### 智谱 GLM-4（推荐）
+- 免费使用，只需注册获取 API 密钥，无需充值
+- 基于智谱 GLM-4-Flash 大型语言模型
+- 翻译质量高，速度快
+- [注册获取 API 密钥](https://www.bigmodel.cn/invite?icode=k7Ec6USMTbEd4du4ZxULXpmwcr074zMJTpgMb8zZZvg%3D)
+
+### DeepSeek
+- 需要 API 密钥和充值
+- 基于 DeepSeek 大型语言模型
+- 支持多种语言翻译
+- [注册获取 API 密钥](https://platform.deepseek.com/)
 
 ## 开发指南
 
@@ -95,21 +113,31 @@ export PUBLISH_TOKEN="your-token-here"
 ./gradlew publishPlugin
 ```
 
-## DeepSeek API 密钥获取
+## API 密钥获取
 
-要使用 SmartTranslation 插件，您需要获取 DeepSeek API 密钥：
+### 智谱 GLM-4 API 密钥（推荐）
+
+1. 访问 [智谱 AI 官网](https://www.bigmodel.cn/invite?icode=k7Ec6USMTbEd4du4ZxULXpmwcr074zMJTpgMb8zZZvg%3D)
+2. 注册/登录您的账户
+3. 导航至 API 密钥管理页面
+4. 创建新的 API 密钥
+5. 将生成的密钥复制到插件设置中
+6. 无需充值，免费使用
+
+### DeepSeek API 密钥
 
 1. 访问 [DeepSeek 官网](https://platform.deepseek.com/)
 2. 注册/登录您的账户
 3. 导航至 API 密钥管理页面
 4. 创建新的 API 密钥
 5. 将生成的密钥复制到插件设置中
+6. 需要充值后才能使用
 
 ## 注意事项
 
 - 翻译长文本时可能需要较长时间，建议增加超时设置
 - 确保网络连接稳定，尤其是当连接到国际API时
-- API调用可能会产生费用，请参阅DeepSeek的定价政策
+- 推荐优先使用智谱 GLM-4 服务，免费且翻译质量高
 
 ## 许可证
 

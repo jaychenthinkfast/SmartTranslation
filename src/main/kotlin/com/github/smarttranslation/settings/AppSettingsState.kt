@@ -16,9 +16,12 @@ import com.intellij.util.xmlb.XmlSerializerUtil
 class AppSettingsState : PersistentStateComponent<AppSettingsState> {
     // 深度搜索API密钥
     var deepSeekApiKey: String = ""
+    
+    // 智谱GLM-4 API密钥
+    var glm4ApiKey: String = ""
 
     // 翻译引擎
-    var translateEngine: String = "DeepSeek"
+    var translateEngine: String = "GLM-4"
 
     // 连接超时时间（秒）
     var connectTimeoutSeconds: Int = 10

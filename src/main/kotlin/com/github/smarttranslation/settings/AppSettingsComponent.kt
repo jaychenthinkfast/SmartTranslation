@@ -4,6 +4,11 @@ import com.github.smarttranslation.services.TranslateServiceFactory
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.FormBuilder
+import java.awt.Cursor
+import java.awt.Desktop
+import java.awt.event.MouseAdapter
+import java.awt.event.MouseEvent
+import java.net.URI
 import javax.swing.*
 
 /**
@@ -18,9 +23,38 @@ class AppSettingsComponent {
     // DeepSeek API密钥输入
     private val deepSeekApiKeyField = JBTextField()
     
+    // GLM-4 API密钥输入
+    private val glm4ApiKeyField = JBTextField()
+    
     // 超时设置
     private val connectTimeoutField = JBTextField()
     private val readTimeoutField = JBTextField()
+    
+    /**
+     * 创建可点击的链接标签
+     */
+    private fun createLinkLabel(text: String, url: String, displayUrl: String? = null): JBLabel {
+        val urlToDisplay = displayUrl ?: url
+        val label = JBLabel("<html>$text <a href=\"$url\">$urlToDisplay</a></html>")
+        label.cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
+        label.addMouseListener(object : MouseAdapter() {
+            override fun mouseClicked(e: MouseEvent) {
+                try {
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop.getDesktop().browse(URI(url))
+                    }
+                } catch (ex: Exception) {
+                    JOptionPane.showMessageDialog(
+                        null,
+                        "无法打开链接: $url\n${ex.message}",
+                        "错误",
+                        JOptionPane.ERROR_MESSAGE
+                    )
+                }
+            }
+        })
+        return label
+    }
     
     /**
      * 初始化设置面板
@@ -29,10 +63,15 @@ class AppSettingsComponent {
         // 创建设置界面
         panel = FormBuilder.createFormBuilder()
             .addLabeledComponent(JBLabel("翻译引擎:"), engineComboBox, 1, false)
-            .addComponent(JBLabel("DeepSeek是一个高质量的AI翻译服务，需要API密钥"), 5)
+            .addComponent(JBLabel("支持多种高质量AI翻译服务，需配置相应API密钥"), 5)
+            .addSeparator(10)
+            .addLabeledComponent(JBLabel("智谱GLM-4 API密钥:"), glm4ApiKeyField, 1, false)
+            .addComponent(JBLabel("使用智谱GLM-4翻译服务需要配置API密钥，只需在官网注册获取API密钥即可免费使用，无需充值"), 5)
+            .addComponent(createLinkLabel("官方链接:", "https://www.bigmodel.cn/invite?icode=k7Ec6USMTbEd4du4ZxULXpmwcr074zMJTpgMb8zZZvg%3D", "https://www.bigmodel.cn"), 5)
             .addSeparator(10)
             .addLabeledComponent(JBLabel("DeepSeek API密钥:"), deepSeekApiKeyField, 1, false)
-            .addComponent(JBLabel("使用DeepSeek翻译服务需要配置API密钥"), 5)
+            .addComponent(JBLabel("使用DeepSeek翻译服务需要配置API密钥，需充值"), 5)
+            .addComponent(createLinkLabel("官方链接:", "https://platform.deepseek.com/", "https://platform.deepseek.com"), 5)
             .addSeparator(10)
             .addLabeledComponent(JBLabel("连接超时(秒):"), connectTimeoutField, 1, false)
             .addComponent(JBLabel("建议值：5-15秒，网络不稳定时可适当增加"), 5)
@@ -83,6 +122,20 @@ class AppSettingsComponent {
      */
     fun setDeepSeekApiKey(apiKey: String) {
         deepSeekApiKeyField.text = apiKey
+    }
+    
+    /**
+     * 获取GLM-4 API密钥
+     */
+    fun getGLM4ApiKey(): String {
+        return glm4ApiKeyField.text
+    }
+    
+    /**
+     * 设置GLM-4 API密钥
+     */
+    fun setGLM4ApiKey(apiKey: String) {
+        glm4ApiKeyField.text = apiKey
     }
     
     /**
