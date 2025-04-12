@@ -5,7 +5,7 @@ SmartTranslation 是一款为 JetBrains IDE 开发的智能翻译插件，提供
 ## 功能特性
 
 - **高质量的 AI 翻译**：
-  - 智谱 GLM-4 翻译（默认，免费使用，仅需注册获取API密钥）
+  - 智谱 GLM-4 翻译（默认，免费使用，提供免密钥体验版）
   - DeepSeek AI 翻译（需要 API 密钥和充值）
   - 支持中英文互译，准确度高
 
@@ -64,7 +64,8 @@ SmartTranslation 是一款为 JetBrains IDE 开发的智能翻译插件，提供
 ## 翻译引擎
 
 ### 智谱 GLM-4（推荐）
-- 免费使用，只需注册获取 API 密钥，无需充值
+- 提供免密钥体验版，无需注册即可使用
+- 支持 API 密钥模式，注册后获取密钥可享受更稳定的服务
 - 基于智谱 GLM-4-Flash 大型语言模型
 - 翻译质量高，速度快
 - [注册获取 API 密钥](https://www.bigmodel.cn/invite?icode=k7Ec6USMTbEd4du4ZxULXpmwcr074zMJTpgMb8zZZvg%3D)
@@ -137,7 +138,7 @@ export PUBLISH_TOKEN="your-token-here"
 
 - 翻译长文本时可能需要较长时间，建议增加超时设置
 - 确保网络连接稳定，尤其是当连接到国际API时
-- 推荐优先使用智谱 GLM-4 服务，免费且翻译质量高
+- 推荐优先使用智谱 GLM-4 服务，提供免密钥体验版，注册后使用 API 密钥可获得更稳定的服务
 
 ## 许可证
 
