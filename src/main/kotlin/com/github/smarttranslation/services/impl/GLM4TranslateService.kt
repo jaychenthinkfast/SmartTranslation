@@ -24,8 +24,9 @@ class GLM4TranslateService : TranslateService {
             .build()
     }
     
-    // 智谱API端点
+    // 智谱API端点和代理服务端点
     private val apiUrl = "https://open.bigmodel.cn/api/paas/v4/chat/completions"
+    private val proxyUrl = "https://glmproxy.chenjie.info/v1/chat/completions"
     
     // Gson实例用于正确处理JSON
     private val gson = Gson()
@@ -49,17 +50,8 @@ class GLM4TranslateService : TranslateService {
             )
         }
         
-        // 检查API密钥
-        if (apiKey.isBlank()) {
-            return TranslateResult(
-                originalText = text,
-                translatedText = "",
-                sourceLanguage = sourceLanguage,
-                targetLanguage = targetLanguage,
-                engine = "GLM-4",
-                error = "请配置智谱GLM-4 API密钥"
-            )
-        }
+        
+
         
         try {
             // 获取源语言和目标语言的名称
@@ -90,8 +82,11 @@ class GLM4TranslateService : TranslateService {
             val mediaType = "application/json; charset=utf-8".toMediaType()
             val requestBody = requestJson.toRequestBody(mediaType)
             
+            // 根据是否配置API密钥决定使用哪个端点
+            val url = if (apiKey.isBlank()) proxyUrl else apiUrl
+            
             val request = Request.Builder()
-                .url(apiUrl)
+                .url(url)
                 .post(requestBody)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Authorization", "Bearer $apiKey")

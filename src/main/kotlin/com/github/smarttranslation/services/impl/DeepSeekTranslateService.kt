@@ -59,7 +59,7 @@ class DeepSeekTranslateService : TranslateService {
                 sourceLanguage = sourceLanguage,
                 targetLanguage = targetLanguage,
                 engine = "DeepSeek",
-                error = "请配置API密钥"
+                error = "请配置DeepSeek API密钥"
             )
         }
         
