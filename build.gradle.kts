@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.github.smarttranslation"
-version = "1.2.0"
+version = "1.2.1"
 
 repositories {
     maven { url = uri("https://maven.aliyun.com/repository/public") }
@@ -117,19 +117,17 @@ tasks {
         """.trimIndent())
         
         changeNotes.set("""
-            <h3>1.2.0 版本更新:</h3>
+            <h3>1.2.1 版本更新:</h3>
             <ul>
-                <li>新增智谱 GLM-4 免密钥体验版，无需注册即可使用</li>
-                <li>优化翻译服务稳定性</li>
-                <li>改进设置界面，提供更清晰的使用说明</li>
+                <li>新增图标支持，提升用户体验</li>
+                <li>优化界面显示效果</li>
                 <li>修复已知问题</li>
             </ul>
             
-            <h3>Version 1.2.0 Updates:</h3>
+            <h3>Version 1.2.1 Updates:</h3>
             <ul>
-                <li>Added Zhipu GLM-4 keyless trial version, no registration required</li>
-                <li>Improved translation service stability</li>
-                <li>Enhanced settings interface with clearer instructions</li>
+                <li>Added icon support for better user experience</li>
+                <li>Improved UI display</li>
                 <li>Fixed known issues</li>
             </ul>
         """.trimIndent())

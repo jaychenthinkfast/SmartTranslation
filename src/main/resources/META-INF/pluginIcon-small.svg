@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20" height="20" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background Circle -->
+    <circle cx="100" cy="100" r="90" fill="#000080" />
+    
+    <!-- Yin-Yang Symbol -->
+    <path d="M100,10 
+             A90,90 0 0,1 100,190 
+             A45,45 0 0,0 100,100 
+             A45,45 0 0,1 100,10" 
+          fill="#FFFFF0" />
+    <path d="M100,190 
+             A90,90 0 0,1 100,10 
+             A45,45 0 0,0 100,100 
+             A45,45 0 0,1 100,190" 
+          fill="#1a237e" />
+    
+    <!-- Chinese Character "文" -->
+    <text x="65" y="140" 
+          font-family="'Noto Sans SC', 'Microsoft YaHei', sans-serif" 
+          font-size="55" 
+          fill="#FFFFF0" 
+          text-anchor="middle" 
+          dominant-baseline="middle"
+          style="font-weight: bold;">文</text>
+    
+    <!-- English Character "A" -->
+    <text x="135" y="60" 
+          font-family="'Arial Black', 'Helvetica Black', sans-serif" 
+          font-size="75" 
+          fill="#1a237e" 
+          text-anchor="middle" 
+          dominant-baseline="middle"
+          style="font-weight: bold;">A</text>
+</svg> 
