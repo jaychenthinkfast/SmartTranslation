@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.github.smarttranslation"
-version = "1.2.1"
+version = "1.2.2"
 
 repositories {
     maven { url = uri("https://maven.aliyun.com/repository/public") }
@@ -50,7 +50,7 @@ tasks {
     patchPluginXml {
         version.set(project.version.toString())
         sinceBuild.set("233")
-        untilBuild.set("243.*")
+        untilBuild.set("251.*")
         
         pluginDescription.set("""
             
@@ -117,18 +117,18 @@ tasks {
         """.trimIndent())
         
         changeNotes.set("""
-            <h3>1.2.1 版本更新:</h3>
+            <h3>1.2.2 版本更新:</h3>
             <ul>
-                <li>新增图标支持，提升用户体验</li>
-                <li>优化界面显示效果</li>
-                <li>修复已知问题</li>
+                <li>支持最新版 GoLand IDE</li>
+                <li>修复 IDE 版本兼容性问题</li>
+                <li>优化插件稳定性</li>
             </ul>
             
-            <h3>Version 1.2.1 Updates:</h3>
+            <h3>Version 1.2.2 Updates:</h3>
             <ul>
-                <li>Added icon support for better user experience</li>
-                <li>Improved UI display</li>
-                <li>Fixed known issues</li>
+                <li>Support for the latest GoLand IDE version</li>
+                <li>Fixed IDE version compatibility issues</li>
+                <li>Improved plugin stability</li>
             </ul>
         """.trimIndent())
     }
