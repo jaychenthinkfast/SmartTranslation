@@ -1,6 +1,6 @@
 # SmartTranslation
 
-SmartTranslation 是一款为 JetBrains IDE 开发的智能翻译插件，提供便捷的代码注释和文档翻译功能。
+SmartTranslation 是一款为 JetBrains IDE 开发的智能翻译插件，基于大模型技术，提供便捷的中英文翻译功能。
 
 ## 功能特性
 
